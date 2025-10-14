@@ -61,6 +61,20 @@ public class TreeFromStructureNBTFeature extends Feature<TreeFromStructureNBTCon
         ResourceLocation canopyLocation = config.canopyLocation();
         Optional<StructureTemplate> canopyTemplateOptional = templateManager.get(canopyLocation);
 
+        
+        // Variant handling - Even if unset, the config should always return at least 1 for each value.
+        final int maxTrunkVariants = config.maxtrunks();
+        final int maxCanopyVariants = config.maxCanopies();
+        // If variations are set to more than 1, then append the path name with "_x", where x is the numerical value of the variant
+        // Clamped to 1 and the integer limit to avoid overflow, should someone make a tree with that many different parts... Somehow.
+        if (maxTrunkVariants > 1) {
+            baseLocation= baseLocation.withPath(baseLocation.getPath() + "_" + Mth.clamp(random.nextInt(maxTrunkVariants+1),1, Integer.MAX_VALUE));
+        }
+        if (maxCanopyVariants > 1) {
+            canopyLocation = canopyLocation.withPath(canopyLocation.getPath() +"_"+ Mth.clamp(random.nextInt(maxCanopyVariants+1),1, Integer.MAX_VALUE));
+        }
+        // This, as a result, leaves mods/datapacks relying on an older version of OTTYG untouched, but gives more power for future utilizations.
+
         if (baseTemplateOptional.isEmpty()) {
             throw noTreePartPresent(baseLocation);
         }
