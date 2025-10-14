@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
@@ -55,6 +56,7 @@ public class TreeFromStructureNBTFeature extends Feature<TreeFromStructureNBTCon
         BlockStateProvider leavesProvider = config.leavesProvider();
 
         WorldGenLevel level = featurePlaceContext.level();
+        RandomSource random = featurePlaceContext.random();
         StructureTemplateManager templateManager = level.getLevel().getStructureManager();
         ResourceLocation baseLocation = config.baseLocation();
         Optional<StructureTemplate> baseTemplateOptional = templateManager.get(baseLocation);
@@ -95,10 +97,6 @@ public class TreeFromStructureNBTFeature extends Feature<TreeFromStructureNBTCon
             level.setBlock(rotateInDirectionAroundOrigin(blockPos, origin, Direction.SOUTH), Blocks.COPPER_BLOCK.defaultBlockState(), 2);
         }
 
-
-
-
-        RandomSource random = featurePlaceContext.random();
         StructurePlaceSettings placeSettings = new StructurePlaceSettings().setRotation(Rotation.getRandom(random));
         StructureTemplate.Palette trunkBasePalette = placeSettings.getRandomPalette(basePalettes, origin);
         StructureTemplate.Palette randomCanopyPalette = placeSettings.getRandomPalette(canopyPalettes, origin);

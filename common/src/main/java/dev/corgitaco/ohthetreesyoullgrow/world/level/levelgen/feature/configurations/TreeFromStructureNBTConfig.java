@@ -35,8 +35,8 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                     ResourceLocation.CODEC.fieldOf("base_location").forGetter(TreeFromStructureNBTConfig::baseLocation),
                     ResourceLocation.CODEC.fieldOf("canopy_location").forGetter(TreeFromStructureNBTConfig::canopyLocation),
                     IntProvider.CODEC.fieldOf("height").forGetter(TreeFromStructureNBTConfig::height),
-                    Codec.INT.optionalFieldOf("maxCanopies", 1).forGetter(TreeFromNBT::maxCanopies),
-                    Codec.INT.optionalFieldOf("maxTrunks", 1).forGetter(TreeFromNBT::maxtrunks),
+                    Codec.INT.optionalFieldOf("maxCanopies", 1).forGetter(TreeFromStructureNBTConfig::maxCanopies),
+                    Codec.INT.optionalFieldOf("maxTrunks", 1).forGetter(TreeFromStructureNBTConfig::maxtrunks),
                     BlockStateProvider.CODEC.fieldOf("log_provider").forGetter(TreeFromStructureNBTConfig::logProvider),
                     BlockStateProvider.CODEC.fieldOf("leaves_provider").forGetter(TreeFromStructureNBTConfig::leavesProvider),
                     BLOCK_SET_CODEC.fieldOf("log_target").forGetter(TreeFromStructureNBTConfig::logTarget),
@@ -56,7 +56,7 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                                       IntProvider height, BlockStateProvider logProvider,
                                       BlockStateProvider leavesProvider, Collection<Block> logTarget,
                                       List<Block> leavesTarget, TagKey<Block> growableOn, int maxLogDepth, List<TreeDecorator> treeDecorators) {
-        this(baseLocation, canopyLocation, height, logProvider, leavesProvider, new ObjectOpenHashSet<>(logTarget), new ObjectOpenHashSet<>(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, treeDecorators, Set.of(), false, Orientation.STANDARD);
+        this(baseLocation, canopyLocation, height, 1, 1, logProvider, leavesProvider, new ObjectOpenHashSet<>(logTarget), new ObjectOpenHashSet<>(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, treeDecorators, Set.of(), false, Orientation.STANDARD);
     }
 
     @Deprecated(forRemoval = true, since = "Use Builder")
@@ -64,7 +64,7 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                                       IntProvider height, BlockStateProvider logProvider,
                                       BlockStateProvider leavesProvider, Block logTarget,
                                       Block leavesTarget, TagKey<Block> growableOn, int maxLogDepth, List<TreeDecorator> treeDecorators) {
-        this(baseLocation, canopyLocation, height, logProvider, leavesProvider, Collections.singleton(logTarget), Collections.singleton(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, treeDecorators, Set.of(), false, Orientation.STANDARD);
+        this(baseLocation, canopyLocation, height, 1, 1, logProvider, leavesProvider, Collections.singleton(logTarget), Collections.singleton(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, treeDecorators, Set.of(), false, Orientation.STANDARD);
     }
 
     @Deprecated(forRemoval = true, since = "Use Builder")
@@ -72,7 +72,7 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                                       IntProvider height, BlockStateProvider logProvider,
                                       BlockStateProvider leavesProvider, Block logTarget,
                                       Block leavesTarget, TagKey<Block> growableOn, int maxLogDepth) {
-        this(baseLocation, canopyLocation, height, logProvider, leavesProvider, Collections.singleton(logTarget), Collections.singleton(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, ImmutableList.of(), Set.of(), false, Orientation.STANDARD);
+        this(baseLocation, canopyLocation, height, 1, 1, logProvider, leavesProvider, Collections.singleton(logTarget), Collections.singleton(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, ImmutableList.of(), Set.of(), false, Orientation.STANDARD);
     }
 
     @Deprecated(forRemoval = true, since = "Use Builder")
@@ -88,7 +88,7 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                                       IntProvider height, BlockStateProvider logProvider,
                                       BlockStateProvider leavesProvider, Collection<Block> logTarget,
                                       List<Block> leavesTarget, TagKey<Block> growableOn, int maxLogDepth, List<TreeDecorator> treeDecorators, boolean isSapling) {
-        this(baseLocation, canopyLocation, height, logProvider, leavesProvider, new ObjectOpenHashSet<>(logTarget), new ObjectOpenHashSet<>(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, treeDecorators, Set.of(), isSapling, Orientation.STANDARD);
+        this(baseLocation, canopyLocation, height, 1, 1, logProvider, leavesProvider, new ObjectOpenHashSet<>(logTarget), new ObjectOpenHashSet<>(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, treeDecorators, Set.of(), isSapling, Orientation.STANDARD);
     }
 
     @Deprecated(forRemoval = true, since = "Use Builder class")
@@ -96,7 +96,7 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                                       IntProvider height, BlockStateProvider logProvider,
                                       BlockStateProvider leavesProvider, Block logTarget,
                                       Block leavesTarget, TagKey<Block> growableOn, int maxLogDepth, List<TreeDecorator> treeDecorators, boolean isSapling) {
-        this(baseLocation, canopyLocation, height, logProvider, leavesProvider, Collections.singleton(logTarget), Collections.singleton(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, treeDecorators, Set.of(), isSapling, Orientation.STANDARD);
+        this(baseLocation, canopyLocation, height, 1, 1, logProvider, leavesProvider, Collections.singleton(logTarget), Collections.singleton(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, treeDecorators, Set.of(), isSapling, Orientation.STANDARD);
     }
 
     @Deprecated(forRemoval = true, since = "Use Builder class")
@@ -104,7 +104,7 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                                       IntProvider height, BlockStateProvider logProvider,
                                       BlockStateProvider leavesProvider, Block logTarget,
                                       Block leavesTarget, TagKey<Block> growableOn, int maxLogDepth, boolean isSapling) {
-        this(baseLocation, canopyLocation, height, logProvider, leavesProvider, Collections.singleton(logTarget), Collections.singleton(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, ImmutableList.of(), Set.of(), isSapling, Orientation.STANDARD);
+        this(baseLocation, canopyLocation, height, 1, 1, logProvider, leavesProvider, Collections.singleton(logTarget), Collections.singleton(leavesTarget), BlockPredicate.matchesTag(growableOn), BlockPredicate.replaceable(), maxLogDepth, ImmutableList.of(), Set.of(), isSapling, Orientation.STANDARD);
     }
 
     @Deprecated(forRemoval = true, since = "Use Builder class")
