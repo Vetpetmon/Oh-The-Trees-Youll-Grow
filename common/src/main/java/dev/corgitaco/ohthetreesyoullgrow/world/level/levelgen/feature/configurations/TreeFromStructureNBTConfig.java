@@ -19,7 +19,7 @@ import java.util.*;
 import java.util.function.Supplier;
 
 public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, ResourceLocation canopyLocation,
-                                         IntProvider height,
+                                         IntProvider height, int maxCanopies, int maxtrunks,
                                          BlockStateProvider logProvider, BlockStateProvider leavesProvider,
                                          Set<Block> logTarget, Set<Block> leavesTarget,
                                          BlockPredicate growableOn, BlockPredicate leavesPlacementFilter,
@@ -35,6 +35,8 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                     ResourceLocation.CODEC.fieldOf("base_location").forGetter(TreeFromStructureNBTConfig::baseLocation),
                     ResourceLocation.CODEC.fieldOf("canopy_location").forGetter(TreeFromStructureNBTConfig::canopyLocation),
                     IntProvider.CODEC.fieldOf("height").forGetter(TreeFromStructureNBTConfig::height),
+                    Codec.INT.optionalFieldOf("maxCanopies", 1).forGetter(TreeFromNBT::maxCanopies),
+                    Codec.INT.optionalFieldOf("maxTrunks", 1).forGetter(TreeFromNBT::maxtrunks),
                     BlockStateProvider.CODEC.fieldOf("log_provider").forGetter(TreeFromStructureNBTConfig::logProvider),
                     BlockStateProvider.CODEC.fieldOf("leaves_provider").forGetter(TreeFromStructureNBTConfig::leavesProvider),
                     BLOCK_SET_CODEC.fieldOf("log_target").forGetter(TreeFromStructureNBTConfig::logTarget),
@@ -128,6 +130,8 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
         private ResourceLocation canopyLocation;
         @Nullable
         private IntProvider height;
+        private int maxCanopyVariants = 1;
+        private int maxTrunkVariants = 1;
         @Nullable
         private BlockStateProvider logProvider;
         @Nullable
@@ -156,6 +160,16 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
 
         public Builder height(IntProvider height) {
             this.height = height;
+            return this;
+        }
+
+        public Builder maxCanopyVariants(int maxCanopyVariants) {
+            this.maxCanopyVariants = maxCanopyVariants;
+            return this;
+        }
+
+        public Builder maxTrunkVariants(int maxTrunkVariants) {
+            this.maxTrunkVariants = maxTrunkVariants;
             return this;
         }
 
@@ -241,6 +255,8 @@ public record TreeFromStructureNBTConfig(ResourceLocation baseLocation, Resource
                     baseLocation,
                     canopyLocation,
                     height,
+                    maxCanopyVariants,
+                    maxTrunkVariants,
                     logProvider,
                     leavesProvider,
                     logTarget,
